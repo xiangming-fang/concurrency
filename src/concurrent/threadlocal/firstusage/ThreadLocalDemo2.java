@@ -1,4 +1,4 @@
-package concurrent.threadlocal;
+package concurrent.threadlocal.firstusage;
 
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -10,13 +10,12 @@ import java.util.concurrent.Executors;
 
 /**
  * @author: albert.fang
- * @date: 2020/11/27 17:40
- * @description: 对ThreadLocalDemo4的演化
- * feature：
- * 1、取消加锁，通过ThreadLocal来保证多个线程使用同一个SimpleDateFormat对象是安全的
+ * @date: 2020/11/27 17:29
+ * @description: 对ThreadLocalDemo1的优化，利用线程池来创建线程
+ * feature:
+ * 1、用线程池创建线程
  */
-public class ThreadLocalDemo5 {
-
+public class ThreadLocalDemo2 {
     public static void main(String[] args) {
         ExecutorService fixedThreadPool = Executors.newFixedThreadPool(10);
         CountDownLatch latch = new CountDownLatch(1000);
@@ -41,10 +40,7 @@ public class ThreadLocalDemo5 {
 
     private static String date(Long time){
         Date date = new Date(time * 1000);
-        return ThreadLocalOfSimpleDateFormat.threadLocal.get().format(date);
+        SimpleDateFormat sdf = new SimpleDateFormat("mm:ss");
+        return sdf.format(date);
     }
-}
-
-class ThreadLocalOfSimpleDateFormat{
-    public static ThreadLocal<SimpleDateFormat> threadLocal = ThreadLocal.withInitial(() -> new SimpleDateFormat("mm:ss"));
 }

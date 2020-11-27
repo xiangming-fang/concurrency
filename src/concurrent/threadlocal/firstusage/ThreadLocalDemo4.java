@@ -1,4 +1,4 @@
-package concurrent.threadlocal;
+package concurrent.threadlocal.firstusage;
 
 import java.text.SimpleDateFormat;
 import java.time.Duration;
