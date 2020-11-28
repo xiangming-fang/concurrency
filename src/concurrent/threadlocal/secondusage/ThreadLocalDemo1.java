@@ -6,4 +6,5 @@ package concurrent.threadlocal.secondusage;
  * @description: threadlocal的第二种用法示例
  */
 public class ThreadLocalDemo1 {
+
 }
