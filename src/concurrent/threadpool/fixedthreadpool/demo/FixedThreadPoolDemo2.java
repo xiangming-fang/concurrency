@@ -20,7 +20,7 @@ public class FixedThreadPoolDemo2 {
 
     public static void main(String[] args) {
         // 用lambda表达式对集合按照某个字段进行分组，key是学院id，value是分组之后的student集合
-        Map<Integer, List<Student>> maps = initValue.students.stream().collect(Collectors.groupingBy(Student::getCollegeId));
+        Map<Integer, List<Student>> maps = InitValue.students.stream().collect(Collectors.groupingBy(Student::getCollegeId));
         ExecutorService pool = Executors.newFixedThreadPool(10);
         Set<Integer> keys = maps.keySet();
         keys.forEach(v -> {
@@ -34,7 +34,7 @@ public class FixedThreadPoolDemo2 {
     }
 
 }
-class initValue{
+class InitValue {
      static List<Student> students = new ArrayList<>();
      static {
          for (int i = 0; i < 10; i++) {

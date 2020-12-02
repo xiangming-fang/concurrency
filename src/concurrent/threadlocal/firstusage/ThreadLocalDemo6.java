@@ -11,12 +11,13 @@ import java.util.concurrent.Executors;
 /**
  * @author: albert.fang
  * @date: 2020/11/27 17:40
- * @description: 对ThreadLocalDemo4的演化
+ * @description: 对ThreadLocalDemo5的错误演化
  * feature：
- * 1、取消加锁，通过ThreadLocal来保证多个线程使用同一个SimpleDateFormat对象是安全的
- * 2、通过ThreadLocal把一个对象生成每个线程的副本，避免资源竞争
+ * 1、给放在ThreadLocal里的对象前面加上static.（不安全了，不是每个线程独享的了）
+ * 2、也就是说，如果放入ThreadLocal里的对象是共享的，也就是static修饰的，那么使用ThreadLocal毫无意义
  */
-public class ThreadLocalDemo5 {
+public class ThreadLocalDemo6 {
+    static SimpleDateFormat sdf = new SimpleDateFormat("mm:ss");
 
     public static void main(String[] args) {
         ExecutorService fixedThreadPool = Executors.newFixedThreadPool(10);
@@ -42,13 +43,10 @@ public class ThreadLocalDemo5 {
 
     private static String date(Long time){
         Date date = new Date(time * 1000);
-        SimpleDateFormat sdf = ThreadLocalOfSimpleDateFormat.threadLocal.get();
-        // 看看是否是同一个对象
-        System.out.println(System.identityHashCode(sdf));
-        return sdf.format(date);
+        return Holder.threadLocal.get().format(date);
     }
 }
 
-class ThreadLocalOfSimpleDateFormat{
-    public static ThreadLocal<SimpleDateFormat> threadLocal = ThreadLocal.withInitial(() -> new SimpleDateFormat("mm:ss"));
+class Holder{
+    public static ThreadLocal<SimpleDateFormat> threadLocal = ThreadLocal.withInitial(() -> ThreadLocalDemo6.sdf);
 }
