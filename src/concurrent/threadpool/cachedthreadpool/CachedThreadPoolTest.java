@@ -19,7 +19,7 @@ public class CachedThreadPoolTest {
         ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
         CountDownLatch latch = new CountDownLatch(1000);
         for (int i = 0; i < 1000; i++) {
-            cachedThreadPool.submit(() -> {
+            cachedThreadPool.execute(() -> {
                 try {
                     System.out.printf("线程【%s】正在等待……\n",Thread.currentThread().getName());
                     Thread.sleep(new Random().nextInt(100));
